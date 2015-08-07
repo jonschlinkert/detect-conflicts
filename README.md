@@ -15,11 +15,12 @@ $ npm i detect-conflicts --save
 ## Usage
 
 ```js
-var detectConflicts = require('detect-conflicts');
+var detect = require('detect-conflicts');
 
 var file = {path: 'fixtures/a.txt', contents: 'aaa'};
-detectConflicts(file, function (res) {
-  //=> 
+detect(file, function (res) {
+  // `res` would be a user response. we'll only get to this
+  // point if the user chooses not to abort. 
 });
 ```
 
