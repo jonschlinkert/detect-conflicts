@@ -1,0 +1,66 @@
+{
+  "name": "detect-conflicts",
+  "description": "Check for conflicts, and get prompted for action (when needed), before writing a file to disk.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/jonschlinkert/detect-conflicts",
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "jonschlinkert/detect-conflicts",
+  "bugs": {
+    "url": "https://github.com/jonschlinkert/detect-conflicts/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "ansi-bold": "^0.1.1",
+    "ansi-cyan": "^0.1.1",
+    "ansi-gray": "^0.1.1",
+    "ansi-green": "^0.1.1",
+    "ansi-red": "^0.1.1",
+    "ansi-yellow": "^0.1.1",
+    "diff": "^1.4.0",
+    "error-symbol": "^0.1.0",
+    "inquirer": "^0.9.0",
+    "is-binary": "^0.1.0",
+    "lazy-cache": "^0.1.0",
+    "success-symbol": "^0.1.0",
+    "warning-symbol": "^0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  },
+  "keywords": [
+    "check",
+    "compare",
+    "comparison",
+    "conflict",
+    "conflicts",
+    "content",
+    "contents",
+    "detect",
+    "diff",
+    "file",
+    "filepath",
+    "string",
+    "verify"
+  ],
+  "verb": {
+    "related": {
+      "list": [
+        "yeoman",
+        "snippet",
+        "assemble",
+        "template"
+      ]
+    }
+  }
+}
