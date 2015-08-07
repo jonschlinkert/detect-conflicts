@@ -56,7 +56,7 @@
   "verb": {
     "related": {
       "list": [
-        "yeoman",
+        "yeoman-generator",
         "snippet",
         "assemble",
         "template"
