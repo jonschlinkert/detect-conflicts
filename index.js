@@ -2,11 +2,12 @@
 
 var fs = require('fs');
 var path = require('path');
-var lazy = require('lazy-cache')(require);
-var diff = lazy('diff');
-var inquirer = lazy('inquirer');
-var isBinary = lazy('is-binary');
 var utils = require('./lib/utils');
+
+var lazy = require('lazy-cache')(require);
+lazy('diff');
+lazy('inquirer');
+lazy('is-binary');
 
 /**
  * Detects potential conflict between an existing file and content about to be
@@ -32,22 +33,29 @@ function detect(file, opts, cb) {
   if (typeof file.path !== 'string') {
     throw new TypeError('file.path should be a string.');
   }
+
+  if (!file.contents && file.content) {
+    file.contents = file.content;
+  }
+
   if (!file.contents) {
     throw new TypeError('file.contents must be defined to do a comparison.');
   }
+
   if (typeof opts === 'function') {
     cb = opts;
     opts = {};
   }
 
   opts = opts || {};
+  var silent = opts.silent;
   var fp = path.relative(process.cwd(), file.path);
   if (!fs.existsSync(fp)) {
     return cb('create');
   }
 
   if (opts.force) {
-    if (!opts.silent) {
+    if (!silent) {
       msg = utils.green(utils.success) + ' file written to';
       console.log(msg, utils.green(fp));
     }
@@ -56,14 +64,17 @@ function detect(file, opts, cb) {
 
   opts.existing = opts.existing || fs.readFileSync(fp, 'utf8');
   if (opts.existing !== file.contents) {
-    if (!opts.silent) {
+    if (!silent) {
       var msg = utils.yellow(utils.warning) + '  conflict detected:';
       console.log(msg, utils.yellow(fp));
+    }
+    if (opts.ask === false) {
+      return cb('conflict');
     }
     return ask(file, opts, cb);
   }
 
-  if (!opts.silent) {
+  if (!silent) {
     var msg = 'File not written, identical contents to:';
     console.log(msg, utils.cyan(fp));
   }
@@ -82,7 +93,7 @@ function detect(file, opts, cb) {
 
 function stringDiff(existing, proposed, method) {
   method = method || 'diffJson';
-  diff()[method](existing, proposed).forEach(function (res) {
+  lazy.diff[method](existing, proposed).forEach(function (res) {
     var color = utils.gray;
     if (res.added) color = utils.green;
     if (res.removed) color = utils.red;
@@ -104,7 +115,7 @@ function ask(file, opts, cb) {
     opts = {};
   }
   opts = opts || {};
-  var prompt = inquirer().createPromptModule();
+  var prompt = lazy.inquirer.createPromptModule();
   var fp = path.relative(process.cwd(), file.path);
 
   var questions = {
@@ -151,7 +162,7 @@ function ask(file, opts, cb) {
 
       case 'diff':
         var existing = opts.existing || fs.readFileSync(fp, 'utf8');
-        if (isBinary()(existing) && typeof opts.binaryDiff === 'function') {
+        if (lazy.isBinary(existing) && typeof opts.binaryDiff === 'function') {
           opts.binaryDiff(existing, file.contents);
         } else {
           stringDiff(existing, file.contents.toString());

@@ -15,6 +15,14 @@ describe('file conflict', function () {
     });
   });
 
+  it('should use the `content` property:', function (done) {
+    var file = {path: 'fixtures/a.txt', content: 'aaa'};
+    detect(file, function (res) {
+      res.should.equal('identical');
+      done();
+    });
+  });
+
   it('should throw an error when invalid args are passed:', function () {
     (function () {
       detect();
